@@ -22,6 +22,7 @@ class ExcelExport
     private $columns = null;
     private $formats = [];
     private $sheet = 'Sheet1';
+    private $labelOverrides = [];
 
     private function __construct($rows)
     {
@@ -73,6 +74,13 @@ class ExcelExport
         return $this;
     }
 
+    /** 헤더 표시명만 덮어쓴다 ['컬럼' => '표시명']. 컬럼 선택/순서는 바꾸지 않는다 */
+    public function labelOverrides(array $map): self
+    {
+        $this->labelOverrides = $map;
+        return $this;
+    }
+
     /** 파일로 저장한다. 실패하면 예외가 발생하고 대상 파일은 만들어지지 않는다 */
     public function save(string $path): void
     {
@@ -80,12 +88,20 @@ class ExcelExport
         $keys = null;
         if ($this->columns !== null) {
             $keys = array_keys($this->columns);
-            $writer->addRow(array_values($this->columns), true);
+            $header = [];
+            foreach ($this->columns as $key => $label) {
+                $header[] = $this->labelOverrides[$key] ?? $label;
+            }
+            $writer->addRow($header, true);
         }
         foreach ($this->rows as $row) {
             if ($keys === null) {
                 $keys = array_keys($row);
-                $writer->addRow($keys, true);
+                $header = [];
+                foreach ($keys as $key) {
+                    $header[] = $this->labelOverrides[$key] ?? $key;
+                }
+                $writer->addRow($header, true);
             }
             $cells = [];
             foreach ($keys as $key) {
