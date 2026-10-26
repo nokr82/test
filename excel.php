@@ -7,7 +7,8 @@ use ListView\ListView;
 
 ListView::make(Db::connect(), [
     'title'     => '엑셀',
-    'tables' => true, 'tableInput' => true,
+    'tables' => true,
+    'tableInput' => true,
     'editLabels' => true,
     'select'    => 'idx AS 회원번호, nickname AS 닉네임, name AS 이름',
     'from'      => '_member',
