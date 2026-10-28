@@ -1,0 +1,24 @@
+{
+    "name": "nokr82/list-export",
+    "type": "project",
+    "description": "DB 테이블 목록 화면 + 엑셀 다운로드 (CodeIgniter 4.4, PHP 7.4)",
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "ext-mbstring": "*",
+        "ext-zip": "*",
+        "codeigniter4/framework": "~4.4.8"
+    },
+    "autoload": {
+        "exclude-from-classmap": [
+            "**/Database/Migrations/**"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "platform": {
+            "php": "7.4.33"
+        }
+    }
+}
