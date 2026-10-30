@@ -16,3 +16,13 @@ $routes->group('excel', $filter !== '' ? ['filter' => $filter] : [], static func
     $routes->get('download', 'ListController::download', ['as' => 'list.download']);
     $routes->post('labels', 'ListController::saveLabels', ['as' => 'list.labels']);
 });
+
+// 검색엔진(Elasticsearch) 테스트. 접근 제어는 Config/Search.php 의 filter
+$searchFilter = config('Search')->filter;
+$routes->group('search', $searchFilter !== '' ? ['filter' => $searchFilter] : [], static function ($routes) {
+    $routes->get('/', 'SearchController::index', ['as' => 'search.index']);
+    $routes->get('item/(:num)', 'SearchController::item/$1', ['as' => 'search.item']);
+    $routes->post('save', 'SearchController::save', ['as' => 'search.save']);
+    $routes->post('delete/(:num)', 'SearchController::delete/$1', ['as' => 'search.delete']);
+    $routes->post('reindex', 'SearchController::reindex', ['as' => 'search.reindex']);
+});
